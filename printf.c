@@ -1,108 +1,103 @@
 #include "main.h"
 
-int myprintf(const char *format, ...)
-{
-    int count = 0;
+void print_buffer(char buffer[], int *buff_ind);
 
-    va_list args;
-    va_start(args, format);
-
-    while (*format != '\0')
-    {
-        if (*format != '%')
-        {
-            putchar(*format);
-            count++;
-        }
-        else
-        {
-            switch (*++format)
-            {
-                case 'd':
-                    count += fprintf(stdout, "%d", va_arg(args, int));
-                    break;
-                case 'c':
-                    count += fprintf(stdout, "%c", va_arg(args, int));
-                    break;
-                case 's':
-                    count += fprintf(stdout, "%s", va_arg(args, char *));
-                    break;
-                case 'f':
-                    count += fprintf(stdout, "%f", va_arg(args, double));
-                    break;
-                default:
-                    putchar('%');
-                    putchar(*format);
-                    count += 2;
-                    break;
-            }
-        }
-        format++;
-    }
-
-    va_end(args);
-    return count;
-}
+/**
+  * _printf - function that prints based on format specifier
+  * @format: format specifier
+  * Return: pointer to index
+  */
+ * _printf - function that prints based on format specifier.
+ * @format: this takes in format specifier.
+ * Return: length of str.
+ */
 
 int _printf(const char *format, ...)
 {
-    va_list args;
-    int count = 0;
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
+	va_list list;
+	char buffer[BUFF_SIZE];
 
-    va_start(args, format);
-
-    while (*format)
-    {
-        if (*format != '%')
-        {
-            write(1, format, 1);
-            count++;
-        }
-        else
-        {
-            format++;
-            if (*format == 'c')
-            {
-                char c = va_arg(args, int);
-                write(1, &c, 1);
-                count++;
-            }
-            else if (*format == 's')
-            {
-                char *str = va_arg(args, char *);
-                int len = 0;
-                while (str[len])
-                {
-                    write(1, &str[len], 1);
-                    len++;
-                    count++;
-                }
-            }
-            else if (*format == '%')
-            {
-                write(1, "%", 1);
-                count++;
-            }
-        }
-        format++;
-    }
-
-    va_end(args);
-    return count;
-}
-
-int main(void)
+	if (format == NULL)
+int _printf(const char * const format, ...)
 {
-    _printf("Test Case 1: _printf(\"Hello, World!\\n\")\n");
-    _printf("Test Case 2: _printf(\"Character: %c\\n\", 'A')\n");
-    _printf("Test Case 3: _printf(\"Number: %d\\n\", 42)\n");
-    _printf("Test Case 4: _printf(\"String: %s\\n\", \"Hello, World!\")\n");
+	convert_match m[] = {
+		{"%s", printf_string}, {"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}, {"%r", printf_srev},
+		{"%R", printf_rot13}, {"%b", printf_bin}, {"%u", printf_unsigned},
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX},
+		{"%S", printf_exclusive_string}, {"%p", printf_pointer}
+	};
 
-    myprintf("Test Case 5: myprintf(\"Hello, World!\\n\")\n");
-    myprintf("Test Case 6: myprintf(\"Character: %c\\n\", 'A')\n");
-    myprintf("Test Case 7: myprintf(\"Number: %d\\n\", 42)\n");
-    myprintf("Test Case 8: myprintf(\"String: %s\\n\", \"Hello, World!\")\n");
+	va_list args;
+	int i = 0, j, len = 0;
 
-    return (0);
+	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
+
+	va_start(list, format);
+
+	for (i = 0; format && format[i] != '\0'; i++)
+Here:
+	while (format[i] != '\0')
+	{
+		if (format[i] != '%')
+		j = 13;
+		while (j >= 0)
+		{
+			buffer[buff_ind++] = format[i];
+			if (buff_ind == BUFF_SIZE)
+				print_buffer(buffer, &buff_ind);
+			/* write(1, &format[i], 1);*/
+			printed_chars++;
+		}
+		else
+		{
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
+			size = get_size(format, &i);
+			++i;
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
+				return (-1);
+			printed_chars += printed;
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			{
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
+		}
+		_putchar(format[i]);
+		len++;
+		i++;
+	}
+
+	print_buffer(buffer, &buff_ind);
+
+	va_end(list);
+
+	return (printed_chars);
 }
 
+/**
+ * print_buffer - prints the contents of the buffer if it exists
+ * @buffer: array of char
+ * @buff_ind: index at which to add next char, represents the len.
+ */
+void print_buffer(char buffer[], int *buff_ind)
+{
+	if (*buff_ind > 0)
+		write(1, &buffer[0], *buff_ind);
+
+	*buff_ind = 0;
+	va_end(args);
+	return (len);
+}
