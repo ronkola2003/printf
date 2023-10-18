@@ -7,10 +7,10 @@ void print_buffer(char buffer[], int *buff_ind);
   * @format: format specifier
   * Return: pointer to index
   */
- * _printf - function that prints based on format specifier.
- * @format: this takes in format specifier.
- * Return: length of str.
- */
+ * _printf - function that prints format specifier.
+ * @format: format specifier.
+ * Return: length
+ * /
 
 int _printf(const char *format, ...)
 {
