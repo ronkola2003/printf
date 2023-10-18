@@ -1,12 +1,10 @@
-#include “main.h”
+#include "main.h"
+
 /**
-* printf_bin - this is to print a binary number.
-* @val: for the arguments.
-* Return: 1.
-*/
-
-
-
+ * printf_bin - function to print a binary number.
+ * @val: arguments.
+ * Return: 1.
+ */
 
 int printf_bin(va_list val)
 {
