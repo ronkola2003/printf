@@ -2,9 +2,9 @@
 
 
 /**
-* printf_pointer - this is to print an hexdecimal number.
-* @val: this is arguments.
-* Return: this return counter.
+* printf_pointer - function to print an hexdecimal number.
+* @val: Arguments.
+* Return: counter.
 */
 
 
