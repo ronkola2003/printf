@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
-  * _printf - function to prints format specifier
-  * @format: format specification
-  * Return: len
+  * _printf - this prints based on format specifier
+  * @format: format specifier
+  * Return: pointer to index
   */
 
 int _printf(const char *format, ...)
